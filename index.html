@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue 学习</title>
+</head>
+<body>
+<div id="app">
+    {{message}}
+    <br />
+
+    <span v-bind:title="message">
+        test
+    </span>
+    <br />
+    <ol>
+        <li v-for="todo in todos">
+            {{todo.text}}
+        </li>
+    </ol>
+    <br />
+    <button v-on:click="alertMessage">点我弹出消息</button>
+    <br />
+    <ol>
+        <todo-item
+            v-for="item in groceryList"
+            v-bind:todo="item"
+            v-bind:key="item.id">
+
+        </todo-item>
+    </ol>
+    <div style="border:solid 1px red">
+        <div style="border:solid 1px blue">
+            <router-link to="/foo">Go to Foo</router-link>
+            <router-link to="/bar">Go to Bar</router-link>
+        </div>
+        <br/>
+        <router-view></router-view>
+    </div>
+</div>
+
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+<script>
+    Vue.component('todo-item',{
+        props:['todo'],
+        template:'<li>{{todo.text}}</li>'
+    });
+
+    const Foo={template:'<div>foo</div>'};
+    const Bar={template:'<div>bar</div>'};
+
+    const routes=[
+        {path:'/foo',component:Foo},
+        {path:'/bar',component:Bar}
+    ];
+
+    const router=new VueRouter({
+        routes:routes
+    });
+
+    var app=new Vue({
+        el:"#app",
+        router:router,
+        data:{
+            message:"hello world",
+            todos:[
+                {text:'银魂'},
+                {text:'灌篮高手'},
+                {text:'七龙珠'}
+            ],
+            groceryList:[
+                {id:0,text:"蔬菜"},
+                {id:1,text:"奶酪"},
+                {id:2,text:"奶茶"}
+            ]
+        },
+        methods:{
+            alertMessage:function () {
+                alert('hello world');
+            }
+        }
+    });
+
+</script>
+</body>
+</html>
